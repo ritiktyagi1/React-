@@ -9,24 +9,27 @@ import {
 import Navbar from './components/Navbar';
 import  Home from './components/Home';
 import About from './components/About';
+import NoteState from './context/notes/NoteState';
 
 
 function App() {
   return (
     <>
+    <NoteState>
     <Router>
       <Navbar/>
       <Routes>
-          <Route path="/" element={<Home/>}>
-            
+          <Route exact path="/" element={<Home/>}>
+          {/* <Route exact path="/"> */}
+          {/* <Home/> */}
           </Route>
           <Route exact path="/about" element={<About/>}>
-            
+          {/* <Route path="/about"> */}
+          {/* <About/> */}
           </Route>
         </Routes>
-
-
     </Router>
+    </NoteState>
     
     </>
   );
