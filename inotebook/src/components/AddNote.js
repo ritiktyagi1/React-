@@ -1,23 +1,25 @@
-
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import noteContext from "../context/notes/NoteContext";
 
 const AddNote = () => {
-    const context = useContext(noteContext);
-    const {addNote}= context;
+  const context = useContext(noteContext);
+  const { addNote } = context;
 
-    const [note, setnote] = useState({title:"", description: "", tag: "default"});
-    const handleClick=(e)=>{
-        e.preventDefault();
-        addNote(note.title, note.description, note.tag);
-    }
+  const [note, setnote] = useState({
+    title: "",
+    description: "",
+    tag: "default",
+  });
+  const handleClick = (e) => {
+    e.preventDefault();
+    addNote(note.title, note.description, note.tag);
+  };
 
-    const onChange = (e)=>{
-        setnote({...note,[e.target.name]:e.target.value})
-    }
+  const onChange = (e) => {
+    setnote({ ...note, [e.target.name]: e.target.value });
+  };
 
-    return (
-    
+  return (
     <div className="container my-3">
       <h2>Add a Note</h2>
       <form className="my-3">
@@ -30,7 +32,8 @@ const AddNote = () => {
             className="form-control"
             id="title"
             name="title"
-            aria-describedby="emailHelp" onChange={onChange}
+            aria-describedby="emailHelp"
+            onChange={onChange}
           />
         </div>
         <div className="mb-3">
@@ -41,19 +44,23 @@ const AddNote = () => {
             type="text"
             name="description"
             className="form-control"
-            id="description" onChange={onChange}
+            id="description"
+            onChange={onChange}
           />
         </div>
-        <div className="mb-3 form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-          />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            Check me out
+        <div className="mb-3">
+          <label htmlFor="tag" className="form-label">
+            Tag
           </label>
+          <input
+            type="text"
+            name="tag"
+            className="form-control"
+            id="description"
+            onChange={onChange}
+          />
         </div>
+        
         <button type="submit" className="btn btn-primary" onClick={handleClick}>
           Add Note
         </button>
