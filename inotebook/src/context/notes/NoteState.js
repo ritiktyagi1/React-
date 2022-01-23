@@ -41,16 +41,8 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }),
     });
 
-    console.log("Adding a new note");
-    const note = {
-      _id: "61ebbe181425048200dc01c9",
-      user: "61e96932d227d4a45f84ce45",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2022-01-22T08:19:36.386Z",
-      __v: 0,
-    };
+    const note = await response.json();
+
     setNotes(notes.concat(note));
   };
 
@@ -62,7 +54,7 @@ const NoteState = (props) => {
         "Content-Type": "application/json",
         "auth-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlOTY5MzJkMjI3ZDRhNDVmODRjZTM4In0sImlhdCI6MTY0MjY4ODE5MH0.Hq_RrrBerGt_kcXY_FBzI1EdilSI1pNJ_OqVgpZmYts",
-      }
+      },
     });
     const json = response.json();
     console.log(json);
@@ -76,8 +68,8 @@ const NoteState = (props) => {
   //Edit a Note
   const editNote = async (id, title, description, tag) => {
     // API CALLS
-    const response = await fetch(`${host}/api/api/notes/updatenote/${id}`, {
-      method: "POST",
+    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token":
@@ -85,17 +77,21 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
+    const json = await response.json();
+    console.log(json);
 
+    let newNotes = JSON.parse(JSON.stringify(notes));
     //Logic to edit in client
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
+    for (let index = 0; index < newNotes.length; index++) {
+      const element = newNotes[index];
       if (element._id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
       }
     }
+    setNotes(newNotes);
   };
   return (
     <NoteContext.Provider
