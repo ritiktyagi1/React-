@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom"
 
-const Login = () => {
+const Login = (props) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  let navigate= useNavigate();
+  const navigate= useNavigate();
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,13 +22,16 @@ const Login = () => {
     const json = await response.json();
     console.log(json);
 
-    if(json){
+    if(json.success){
         // save the auth token and redirect
-        localStorage.setItem('token',json.authtoken);
+        localStorage.setItem("token",json.authtoken);
+        let x= json.authtoken;
+        console.log(x);
+        props.showAlert("Logged in Successfully","success");
         navigate("/");
     }
     else {
-        alert("Invalid credentials")
+        props.showAlert("Invalid details","danger");
     }
     
   };
@@ -38,7 +41,8 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-3">
+        <h2>Login to continue to iNotebook</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
